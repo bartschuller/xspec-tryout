@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:s2h="urn:s2h"
+    stylesheet="simple2html.xsl">
+    
+    <!-- How to test an xslt2 function -->
+    <x:scenario label="When titleizing text">
+        <x:call function="s2h:titleize">
+            <x:param name="title" select="'Title'"/>
+        </x:call>
+        
+        <x:expect label="Convert to upper case" select="'TITLE'" />
+    </x:scenario>
+    
+    <!-- How to test xslt matching on a fragment included in the test -->
+    <x:scenario label="sectie kop">
+        <x:context>
+            <sectie>
+                <kop>Kop</kop>
+            </sectie>
+        </x:context>
+        <x:expect label="becomes h2">
+            <h2>Kop</h2>
+        </x:expect>
+    </x:scenario>
+    
+    <!-- Test using a real document -->
+    <x:scenario label="html document structure">
+        <x:context href="simple.xml"/>
+        <x:expect label="includes 'head' with 'title'" test="/html/head">
+            <head>
+                <title>SIMPEL TEKST DOCUMENT</title>
+            </head>
+        </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="three dots">
+        <x:context>
+            <simple><kop>Kopje</kop></simple>
+        </x:context>
+        <x:expect label="match any text" test="h1">
+            <h1>...</h1>
+        </x:expect>
+    </x:scenario>
+</x:description>
